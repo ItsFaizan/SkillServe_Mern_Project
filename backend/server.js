@@ -3,7 +3,6 @@ import backendRouter from './routes/backendRouter.js';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import morgan from 'morgan';
 import { config } from 'dotenv';
 config();
 
