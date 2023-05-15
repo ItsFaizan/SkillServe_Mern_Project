@@ -41,31 +41,48 @@ const updateServiceOrderStatus = async (req, res) => {
 
 
   const getServiceOrders = async (req, res) => {
-    const { buyerId, sellerId, status } = req.body;
+    const { buyerid, sellerid, status } = req.body;
     let query = {};
   
-    if (buyerId) {
-      query.buyerid = buyerId;
+    if (buyerid) {
+      query.buyerid = buyerid;
     }
   
-    if (sellerId) {
-      query.sellerid = sellerId;
+    if (sellerid) {
+      query.sellerid = sellerid;
     }
   
-    if (status === 'completed') {
+    if (status === 'completed') 
+    {
       query.status = 'completed';
-    } else if (status === 'not_completed') {
+    } else 
+    {
       query.status = { $ne: 'completed' };
     }
   
     try {
-      const serviceOrders = await ServiceOrder.find(query);
+      let serviceOrders;
+      
+      if (buyerid && !status) 
+      {
+        serviceOrders = await ServiceOrder.find({ buyerid: buyerid });
+      } 
+      else if (sellerid && !status) 
+      {
+        serviceOrders = await ServiceOrder.find({ sellerid: sellerid });
+      } 
+      else 
+      {
+        serviceOrders = await ServiceOrder.find(query);
+      }
+  
       res.json(serviceOrders);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: 'Internal server error' });
     }
   };
+  
 
 export {createServiceOrder,updateServiceOrderStatus,getServiceOrders}
   

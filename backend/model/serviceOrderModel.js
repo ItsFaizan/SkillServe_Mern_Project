@@ -3,16 +3,19 @@ import mongoose from 'mongoose'
 const serviceOrderSchema = mongoose.Schema({
 
     serviceid:{
-        type:String,
-        require:true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service',
+        required: true
     },
     buyerid:{
-        type:String,
-        require:true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     sellerid:{
-        type:String,
-        require:true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     price:{
         type:Number,

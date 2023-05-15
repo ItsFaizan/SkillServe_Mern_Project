@@ -3,8 +3,9 @@ import mongoose from 'mongoose'
 const serviceSchema = mongoose.Schema({
 
     userid:{
-        type:String,
-        require:true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     title:{
         type:String,

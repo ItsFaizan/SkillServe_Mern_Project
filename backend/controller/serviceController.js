@@ -62,7 +62,7 @@ const updateService = async (req, res) => {
     const { userid } = req.params;
   
     try {
-      const service = await Service.findById(userid);
+      const service = await Service.findOne({userid:userid});
   
       if (service) {
         res.json(service);
