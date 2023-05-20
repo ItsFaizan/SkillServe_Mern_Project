@@ -20,13 +20,13 @@ async function auth(req, res, next)
 
 const backendRouter = express.Router();
 
-backendRouter.post('/createservice', auth, createService);
-backendRouter.put('/updateservice/:userid',auth, updateService);
-backendRouter.delete('/deleteservice/:userid',auth, deleteService);
-backendRouter.get('/getservice/:userid', auth, getService);
+backendRouter.post('/createservice',  createService);
+backendRouter.put('/updateservice/:userid', updateService);
+backendRouter.delete('/deleteservice/:userid', deleteService);
+backendRouter.get('/getservice/:userid',  getService);
 
-backendRouter.post('/createserviceorder', auth, createServiceOrder);
-backendRouter.put('/updateserviceorderstatus/:serviceorderId', auth, updateServiceOrderStatus);
-backendRouter.get('/getserviceorders', auth, getServiceOrders);
+backendRouter.post('/createserviceorder',  createServiceOrder);
+backendRouter.put('/updateserviceorderstatus/:serviceorderId',  updateServiceOrderStatus);
+backendRouter.get('/getserviceorders',  getServiceOrders);
 
 export default backendRouter;
