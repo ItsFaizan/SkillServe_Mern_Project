@@ -10,23 +10,23 @@ async function auth(req, res, next)
   
     if (token == null) return res.sendStatus(401);
   
-    await jwt.verify(token, process.env.SECRET_KEY, (err, user) => 
+    await jwt.verify(token, process.env.SECRET_KEY, (err, id) => 
     {
       if (err) return res.sendStatus(403);
-      req.user = user;
+      req.id = id;
       next();
     });
 }
 
 const backendRouter = express.Router();
 
-backendRouter.post('/createservice',  createService);
-backendRouter.put('/updateservice/:userid', updateService);
-backendRouter.delete('/deleteservice/:userid', deleteService);
-backendRouter.get('/getservice/:userid',  getService);
+backendRouter.post('/createservice', auth, createService);
+backendRouter.put('/updateservice',auth, updateService);
+backendRouter.delete('/deleteservice',auth, deleteService);
+backendRouter.get('/getservice',auth,  getService);
 
-backendRouter.post('/createserviceorder',  createServiceOrder);
-backendRouter.put('/updateserviceorderstatus/:serviceorderId',  updateServiceOrderStatus);
-backendRouter.get('/getserviceorders',  getServiceOrders);
+backendRouter.post('/createserviceorder',auth,  createServiceOrder);
+backendRouter.put('/updateserviceorderstatus/:serviceorderId',auth,  updateServiceOrderStatus);
+backendRouter.get('/getserviceorders',auth,  getServiceOrders);
 
 export default backendRouter;

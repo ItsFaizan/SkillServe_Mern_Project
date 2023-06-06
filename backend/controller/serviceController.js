@@ -1,9 +1,9 @@
 import Service from '../model/serviceModel.js'
 
 const createService = async (req,res)=>{
-    const {userid,title,description,price,tags} = req.body;
+    const {id,title,description,price,tags} = req.body;
     const service = new Service({
-        userid,
+        userid : id,
         title,
         description,
         price,
@@ -11,7 +11,7 @@ const createService = async (req,res)=>{
     })
     try{
         await service.save();
-        res.json(service);
+        res.json("message: Service created successfully!");
     }catch(err){
         console.log(err);
     }
@@ -29,7 +29,7 @@ const updateService = async (req, res) => {
       );
   
       if (updatedService) {
-        res.json(updatedService);
+        res.json({ message: 'Service Updated successfully' });
       } else {
         res.status(404).json({ error: 'Service not found' });
       }
