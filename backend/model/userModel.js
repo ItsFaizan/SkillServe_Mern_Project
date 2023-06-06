@@ -1,50 +1,43 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const userSchema = mongoose.Schema({
-    name:{
-        type:String,
-        require:true,
-    },
-    email:{
-        type:String,
-        require:true,
-        unique:true
-    },
-    contact:{
-        type:String,
-        require:true
-    },
-    address:{
-        type:String,
-        require:true
-    },
+const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: false,
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+  bio: {
+    type: String,
+    required: false,
+  },
+  revenue: {
+    type: Number,
+    required: true,
+  },
+  service_deliveries: {
+    type: Number,
+    required: true,
+  },
+},{
+  timestamps:true
+});
 
-    bio:{
-        type:String
-    },
-
-    password:{
-        type:String,
-        require:true
-    },
-
-    rating:{
-        type:Number,
-        require:true
-    },
-
-    deliveries:{
-        type:Number,
-        require:true
-    },
-
-    revenue:{
-        type:Number,
-        require:true
-    }
-},
-{timestamps:true}
-)
-
-const User = mongoose.model('User', userSchema);
-export default User;
+export default mongoose.model("User", userSchema)

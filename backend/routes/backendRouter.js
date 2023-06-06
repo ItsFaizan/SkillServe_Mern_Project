@@ -1,32 +1,22 @@
 import express from 'express';
-import { createService, updateService, deleteService, getService } from '../controller/serviceController.js';
+import { createService, updateService, deleteService, getService, findService } from '../controller/serviceController.js';
 import { createServiceOrder, updateServiceOrderStatus, getServiceOrders } from '../controller/serviceOrderController.js';
-import  jwt from 'jsonwebtoken';
+import { login } from '../controller/authController.js';
+import { verifyToken } from '../middleware/jwt.js';
 
-async function auth(req, res, next) 
-{
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-  
-    if (token == null) return res.sendStatus(401);
-  
-    await jwt.verify(token, process.env.SECRET_KEY, (err, id) => 
-    {
-      if (err) return res.sendStatus(403);
-      req.id = id;
-      next();
-    });
-}
 
 const backendRouter = express.Router();
 
-backendRouter.post('/createservice', auth, createService);
-backendRouter.put('/updateservice',auth, updateService);
-backendRouter.delete('/deleteservice',auth, deleteService);
-backendRouter.get('/getservice',auth,  getService);
+backendRouter.post('/userlogin', login);
 
-backendRouter.post('/createserviceorder',auth,  createServiceOrder);
-backendRouter.put('/updateserviceorderstatus/:serviceorderId',auth,  updateServiceOrderStatus);
-backendRouter.get('/getserviceorders',auth,  getServiceOrders);
+backendRouter.post('/createservice', verifyToken, createService);
+backendRouter.put('/updateservice',verifyToken, updateService);
+backendRouter.delete('/deleteservice',verifyToken, deleteService);
+backendRouter.get('/getservice',verifyToken,  getService);
+backendRouter.post('/findservice',verifyToken,  findService)
+
+backendRouter.post('/createserviceorder',verifyToken,  createServiceOrder);
+backendRouter.put('/updateserviceorderstatus/:serviceorderId',verifyToken,  updateServiceOrderStatus);
+backendRouter.get('/getserviceorders',verifyToken,  getServiceOrders);
 
 export default backendRouter;

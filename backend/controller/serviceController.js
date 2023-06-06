@@ -18,12 +18,12 @@ const createService = async (req,res)=>{
 }
 
 const updateService = async (req, res) => {
-    const { userid } = req.params;
+    const { id } = req.body;
     const { title, description, price, tags } = req.body;
   
     try {
       const updatedService = await Service.findOneAndUpdate(
-        { userid: userid },
+        { userid: id },
         { title, description, price, tags },
         { new: true }
       );
@@ -41,10 +41,10 @@ const updateService = async (req, res) => {
 
 
   const deleteService = async (req, res) => {
-    const { userid } = req.params;
+    const { id } = req.body;
   
     try {
-      const deletedService = await Service.findOneAndDelete({ userid: userid });
+      const deletedService = await Service.findOneAndDelete({ userid: id });
   
       if (deletedService) {
         res.json({ message: 'Service deleted successfully' });
@@ -59,10 +59,10 @@ const updateService = async (req, res) => {
 
 
   const getService = async (req, res) => {
-    const { userid } = req.params;
+    const { id } = req.body;
   
     try {
-      const service = await Service.findOne({userid:userid});
+      const service = await Service.findOne({userid:id});
   
       if (service) {
         res.json(service);
@@ -74,7 +74,44 @@ const updateService = async (req, res) => {
       res.status(500).json({ error: 'Failed to retrieve service' });
     }
   };
+
+  const findService = async (req, res) => {
+
+    try {
+      const { input, filters } = req.body;
   
-export {createService,updateService,deleteService,getService}
+      if (filters.every((filter) => !filter)) {
+        return res.status(310).json({ message: 'No search criteria was selected' });
+      }
+  
+      let query = {};
+  
+      if (filters.includes('title')) {
+        query.title = { $regex: input, $options: 'i' };
+      }
+  
+      if (filters.includes('description')) {
+        query.description = { $regex: input, $options: 'i' };
+      }
+  
+      if (filters.includes('price')) {
+        query.price = parseFloat(input);
+      }
+  
+      if (filters.includes('tags')) {
+        query.tags = { $in: input };
+      }
+  
+      const searchResults = await Service.find(query);
+  
+      res.json(searchResults);
+    } catch (error) {
+      console.error('Error occurred during search:', error);
+      res.status(500).json({ error: 'An error occurred during search' });
+    }
+
+  };
+  
+export {createService,updateService,deleteService,getService,findService}
   
   

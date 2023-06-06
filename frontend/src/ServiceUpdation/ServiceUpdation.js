@@ -25,14 +25,12 @@ export default function ServiceUpdation() {
             toast.error('Please fill all the fields');
             return;
             }
-        
-            const tagsArray = tags.split(',');
-        
+
             const body = {
             title: title,
             description: description,
             price: price,
-            tags: tagsArray
+            tags: tags
             };
         
             const response = await fetch('/service/updateservice', {
@@ -76,11 +74,16 @@ export default function ServiceUpdation() {
         }
     };
 
+    
+
     const removeTag = (index) => {
         const updatedTags = [...tags];
         updatedTags.splice(index, 1);
         setTags(updatedTags);
     };
+
+
+
 
     const handledeletion = async() => {
 
