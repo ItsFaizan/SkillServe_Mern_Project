@@ -1,29 +1,56 @@
-import Service from '../model/serviceModel.js'
+import Service from '../model/serviceModel.js';
 
 const createService = async (req,res)=>{
-    const {id,title,description,price,tags} = req.body;
+  try{
+
+    const {title,description,price,tags} = req.body;
+    const userid = req.userid;
+
+    const existingService = await Service.findOne({ userid: userid });
+    if (existingService) {
+      res.status(400).json({ error: "User already has a service created" });
+      return;
+    }
+  
     const service = new Service({
-        userid : id,
+        userid : userid,
         title,
         description,
         price,
         tags
     })
-    try{
+    
         await service.save();
-        res.json("message: Service created successfully!");
+        res.json({message:"Service created successfully!"});
     }catch(err){
-        console.log(err);
+        res.json({error:err});
     }
 }
 
+const checkservice = async (req,res)=>{
+  try{
+    const userid = req.userid;
+    const existingService = await Service.findOne({ userid: userid });
+    if (existingService) {
+      res.status(200).json({ message: 'User has a service' });
+      return;
+    } 
+    else {
+      res.status(335).json({ message: 'User does not have a service' });
+    }
+  }catch(err){
+    res.json({error:err});
+  }
+}
+
+
 const updateService = async (req, res) => {
-    const { id } = req.body;
+    const userid = req.userid;
     const { title, description, price, tags } = req.body;
   
     try {
       const updatedService = await Service.findOneAndUpdate(
-        { userid: id },
+        { userid: userid },
         { title, description, price, tags },
         { new: true }
       );
@@ -41,10 +68,10 @@ const updateService = async (req, res) => {
 
 
   const deleteService = async (req, res) => {
-    const { id } = req.body;
+    const userid = req.userid;
   
     try {
-      const deletedService = await Service.findOneAndDelete({ userid: id });
+      const deletedService = await Service.findOneAndDelete({ userid: userid });
   
       if (deletedService) {
         res.json({ message: 'Service deleted successfully' });
@@ -59,10 +86,10 @@ const updateService = async (req, res) => {
 
 
   const getService = async (req, res) => {
-    const { id } = req.body;
+    const userid = req.userid;
   
     try {
-      const service = await Service.findOne({userid:id});
+      const service = await Service.findOne({userid:userid});
   
       if (service) {
         res.json(service);
@@ -78,7 +105,8 @@ const updateService = async (req, res) => {
   const findService = async (req, res) => {
 
     try {
-      const { input, filters } = req.body;
+      const {input, filters } = req.body;
+      const userid = req.userid;
   
       if (filters.every((filter) => !filter)) {
         return res.status(310).json({ message: 'No search criteria was selected' });
@@ -95,12 +123,15 @@ const updateService = async (req, res) => {
       }
   
       if (filters.includes('price')) {
-        query.price = parseFloat(input);
+        query.price = isNaN(input) ? null : parseInt(input);
       }
   
       if (filters.includes('tags')) {
-        query.tags = { $in: input };
+        const tags = input.split(/[, ]+/).filter(Boolean);
+        query.tags = { $in: tags };
       }
+
+      query.userid = { $ne: userid };
   
       const searchResults = await Service.find(query);
   
@@ -112,6 +143,6 @@ const updateService = async (req, res) => {
 
   };
   
-export {createService,updateService,deleteService,getService,findService}
+export {createService,updateService,deleteService,getService,findService,checkservice}
   
   

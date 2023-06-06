@@ -5,12 +5,15 @@ import { MDBCard, MDBCardBody, MDBContainer, MDBCardText, MDBTypography, MDBCol,
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import './ServiceUpdation.css';
 import {toast} from 'react-toastify';
-import {Link ,useLocation} from 'react-router-dom';
+import {useNavigate ,useLocation} from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 export default function ServiceUpdation() {
 
     const location = useLocation();
+    const navigate = useNavigate();
     const data = location.state;
+    const [cookies] = useCookies(['accessToken']);
 
     const [isOpen, setisOpen] = React.useState(false);
     const [title, setTitle] = React.useState(data.title);
@@ -18,6 +21,8 @@ export default function ServiceUpdation() {
     const [price, setPrice] = React.useState(data.price);
     const [tags, setTags] = React.useState(data.tags);
     const [newTag, setNewTag] = React.useState('');
+
+    
 
     const handleupdation = async() => {
             
@@ -37,7 +42,7 @@ export default function ServiceUpdation() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
+                Authorization: `Bearer ${cookies.accessToken}`,
             },
             body: JSON.stringify(body)
             });
@@ -56,8 +61,10 @@ export default function ServiceUpdation() {
             };
     
             await delay(2000);
-            <Link to={{
-                pathname: '/service/profile'}} />
+            navigate('/service/serviceprofile');
+
+
+           
             
     }
 
@@ -88,22 +95,29 @@ export default function ServiceUpdation() {
     const handledeletion = async() => {
 
         setisOpen(false);
-
-        await fetch(`/deleteservice`, {
+      
+        try {
+          const response = await fetch(`/service/deleteservice`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
-            }
-        }.then(response => response.json())
-        .then(data => {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${cookies.accessToken}`,
+            },
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
             toast.success(data.message);
-        })
-        .catch((error) => {
-            toast.error(error.message);
-        }));
+            navigate('/service/createservice');
+          } else {
+            throw new Error('Failed to delete service');
+          }
+        } catch (error) {
+          toast.error(error.message);
+          navigate('/service/serviceprofile');
+        }
+      };
 
-    }
 
     return(
         <div>

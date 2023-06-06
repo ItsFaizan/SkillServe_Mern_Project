@@ -1,5 +1,5 @@
 import express from 'express';
-import { createService, updateService, deleteService, getService, findService } from '../controller/serviceController.js';
+import { createService, updateService, deleteService, getService, findService, checkservice } from '../controller/serviceController.js';
 import { createServiceOrder, updateServiceOrderStatus, getServiceOrders } from '../controller/serviceOrderController.js';
 import { login } from '../controller/authController.js';
 import { verifyToken } from '../middleware/jwt.js';
@@ -14,6 +14,7 @@ backendRouter.put('/updateservice',verifyToken, updateService);
 backendRouter.delete('/deleteservice',verifyToken, deleteService);
 backendRouter.get('/getservice',verifyToken,  getService);
 backendRouter.post('/findservice',verifyToken,  findService)
+backendRouter.get('/checkservice',verifyToken,  checkservice)
 
 backendRouter.post('/createserviceorder',verifyToken,  createServiceOrder);
 backendRouter.put('/updateserviceorderstatus/:serviceorderId',verifyToken,  updateServiceOrderStatus);

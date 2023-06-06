@@ -5,83 +5,83 @@ import { MDBCard, MDBCardBody, MDBContainer, MDBCardText, MDBTypography, MDBCol,
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import './ServiceProfile.css';
 import {toast} from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 export default function ServiceUpdation() {
 
     const [isOpen, setisOpen] = React.useState(false);
-    const [servicedata, setServiceData] = React.useState({});
+    const [servicedata, setServiceData] = React.useState(null);
+    const [cookies] = useCookies(['accessToken']);
 
-    const gotoUpdate = async() => 
-    {
-        <Link to={{
-            pathname: '/service/profileupdation',
-            state: {
-                title: servicedata.service.title,
-                description: servicedata.service.description,
-                price: servicedata.service.price,
-                tags: servicedata.service.tags
-            }
-        }} />
+    const navigate = useNavigate();
 
-    }
-
-    const handledeletion = async() => {
-
+    const handledeletion = async () => {
         setisOpen(false);
-
-        await fetch(`/deleteservice`, {
+      
+        try {
+          const response = await fetch(`/service/deleteservice`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
-            }
-        }.then(response => response.json())
-        .then(data => {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${cookies.accessToken}`,
+            },
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
             toast.success(data.message);
-        })
-        .catch((error) => {
-            toast.error(error.message);
-        }));
-
-    }
+            navigate('/service/myservice');
+          } else {
+            throw new Error('Failed to delete service');
+          }
+        } catch (error) {
+          toast.error(error.message);
+        }
+      };
 
     React.useEffect(() => {
-        (async() => {
-            await fetch(`/service/getservice`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': localStorage.getItem('token')
-                }
-            }.then(response => response.json())
-            .then(data => {
-                setServiceData(data);
-            })
-            .catch((error) => {
-                toast.error(error.message);
-    }));
+        (async () => {
+          try {
+            const response = await fetch(`/service/getservice`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${cookies.accessToken}`,
+              },
+            });
+      
+            if (response.ok) {
+              const data = await response.json();
+              setServiceData(data);
+            } else {
+              throw new Error('Failed to fetch service data');
+            }
+          } catch (error) {
+            toast.error(error.message);
+          }
         })();
-    }, []);
+      }, []);
 
 
 
     return(
         <div>
-            <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+            {servicedata ? (
+                <section className="vh-100" style={{ backgroundColor: '#eee' }}>
                 <MDBContainer className="py-5 h-100">
                     <MDBRow className="justify-content-center align-items-center h-100">
                     <MDBCol xl="10">
                         <MDBCard className="mb-5" style={{ borderRadius: '15px' }}>
                         <MDBCardBody className="p-4">
-                            <MDBTypography className='text-center my-4' tag='h3'>{servicedata.service.title}</MDBTypography>
+                            <MDBTypography className='text-center my-4' tag='h3'>{servicedata.title}</MDBTypography>
                             <MDBCardText className="medium">
                             <MDBRow className='my-4'>
                                 <MDBCol md='1' className="d-flex align-items-center justify-content-center">
                                     <FontAwesomeIcon icon={faClipboard} className="fa-xl" />
                                 </MDBCol>
                                 <MDBCol md='9'>
-                                {servicedata.service.description}
+                                {servicedata.description}
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow className='my-4'>
@@ -89,7 +89,7 @@ export default function ServiceUpdation() {
                                     <FontAwesomeIcon icon={faMoneyBill} className="fa-xl" />
                                 </MDBCol>
                                 <MDBCol md='9'>
-                                {servicedata.service.price}
+                                {servicedata.price}
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow className='my-4'>
@@ -97,16 +97,12 @@ export default function ServiceUpdation() {
                                     <FontAwesomeIcon icon={faHashtag} className="fa-xl" />
                                 </MDBCol>
                                 <MDBCol md='9'>
-                                    {servicedata.service.tags.map((tag) => {
+                                    {servicedata.tags.map((tag) => {
                                         return(
                                             <MDBBadge id='badge-large' color='dark' className='ms-2'>{tag}</MDBBadge>
                                         )
                                     })}
                     
-                                    {/* // <MDBBadge id='badge-large' color='dark' className='ms-2' >React</MDBBadge>
-                                    // <MDBBadge id='badge-large' color='dark' className='ms-2'>Web Development</MDBBadge>
-                                    // <MDBBadge id='badge-large' color='dark' className='ms-2'>MERN Stack</MDBBadge>
-                                    // <MDBBadge id='badge-large' color='dark' className='ms-2'>Web Services</MDBBadge> */}
                                 </MDBCol>
                             </MDBRow><br></br>
                             <MDBRow className='my-4'>
@@ -114,7 +110,9 @@ export default function ServiceUpdation() {
                                     
                                 </MDBCol>
                                 <MDBCol md='8'>
-                                    <MDBBtn id='btnfont' color='dark' className='w-100 mb-4' onClick={gotoUpdate}>Update Service</MDBBtn>
+                                    <Link to={'/service/serviceprofileupdation'} state = {{title : servicedata.title, description: servicedata.description, price: servicedata.price, tags: servicedata.tags}}>
+                                    <MDBBtn id='btnfont' color='dark' className='w-100 mb-4'>Update Service</MDBBtn>
+                                    </Link>
                                     <MDBBtn outline id='btnfont' color='danger' className='w-100 mb-4' onClick={() => setisOpen(true)}>Delete Service</MDBBtn>
                                 </MDBCol>
                             </MDBRow>
@@ -126,6 +124,13 @@ export default function ServiceUpdation() {
                     </MDBRow>
                 </MDBContainer>
             </section>
+            ) : (
+                <div>
+                    <br /><br /><br /><br />
+                <div>Loading...</div>
+                </div>
+            )}
+            
 
             { <div className={`confirmation-alert ${isOpen ? 'open' : ''}`}>
                 <div className="confirmation-alert-overlay"></div>
@@ -153,4 +158,5 @@ export default function ServiceUpdation() {
 
         
     );
+
 }

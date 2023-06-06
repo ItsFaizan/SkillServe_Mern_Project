@@ -13,6 +13,7 @@ import UserNavbar from './UserNavbar/UserNavbar.js';
 import Footer from './Footer/Footer.js';
 import ShowService from './ShowService/ShowService.js';
 import Login from './Login/login.js';
+import ServiceDecider from './ServiceDecider/ServiceDecider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,11 +26,13 @@ root.render(
 
       <Route path="/" element={<div><Login /></div>} />
 
+      <Route path="/service/myservice" element={<div><UserNavbar /><ServiceDecider /></div>} />
+
       <Route path="/service/createservice" element={<div><UserNavbar /><ServiceCreation /></div>} />
 
-      <Route path="/service/profile" element={<div><UserNavbar /><ServiceProfile /></div>} />
+      <Route path="/service/serviceprofile" element={<div><UserNavbar /><ServiceProfile /></div>} />
 
-      <Route path="/service/profileupdation" element={<div><UserNavbar /><ServiceUpdation /></div>} />
+      <Route path="/service/serviceprofileupdation" element={<div><UserNavbar /><ServiceUpdation /></div>} />
 
       <Route path="/service/showservice" element={<div><UserNavbar /><ShowService /></div>} />
 

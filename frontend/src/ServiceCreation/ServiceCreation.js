@@ -5,6 +5,8 @@ import {
 from 'mdb-react-ui-kit';
 import './ServiceCreation.css'
 import { toast } from 'react-toastify';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 function ServiceCreation() {
@@ -13,7 +15,9 @@ function ServiceCreation() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [tags, setTags] = useState('');
+  const [cookies] = useCookies(['accessToken']);
 
+  const navigate = useNavigate();
   
 
 
@@ -32,12 +36,13 @@ function ServiceCreation() {
         price: price,
         tags: tagsArray
       };
-  
+      
+
       const response = await fetch('/service/createservice', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'token': localStorage.getItem('token')
+          Authorization: `Bearer ${cookies.accessToken}`
         },
         body: JSON.stringify(body)
       });
@@ -46,16 +51,17 @@ function ServiceCreation() {
   
       if(data.error){
         toast.error(data.error);
-        return;
+
+        navigate('/service/serviceprofile');
       }
+      else
+      {
+        toast.success(data.message);
+        navigate('/service/serviceprofile');
+      }
+ 
   
-      toast.success(data.message);
-
-      const delay = (ms) => {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      };
-
-      await delay(2000);
+      
   
   };
 

@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../assets/profile.png';
 import styles from '../styles/login.module.css';
 import {toast} from 'react-toastify';
+import { useCookies } from 'react-cookie';
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookie] = useCookies(['accessToken']);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,6 +28,7 @@ function Login() {
       }
       else
       {
+       
         toast.success("Login Successful!");
         navigate('/service/showservice');
       }

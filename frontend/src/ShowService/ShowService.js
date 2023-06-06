@@ -5,8 +5,11 @@ import { faSearch, faTags } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import { MDBCard, MDBCardBody, MDBContainer, MDBCardText, MDBTypography, MDBCol,MDBRow } from 'mdb-react-ui-kit';
 import { faClipboard, faMoneyBill} from '@fortawesome/free-solid-svg-icons';
+import { useCookies } from 'react-cookie';
 
 export default function ShowService() {
+
+  const [cookies] = useCookies(['accessToken']);
 
         const [selectedFilters, setSelectedFilters] = useState({
           title: false,
@@ -30,6 +33,7 @@ export default function ShowService() {
             try {
               const searchInput = document.getElementById('search-input').value;
               const filters = Object.keys(selectedFilters).filter((key) => selectedFilters[key]);
+              console.log(filters);
               const query = {
                 input: searchInput,
                 filters: filters,
@@ -39,6 +43,7 @@ export default function ShowService() {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
+                  Authorization: `Bearer ${cookies.accessToken}`
                   
                 },
                 body: JSON.stringify(query),
@@ -62,9 +67,11 @@ export default function ShowService() {
 
           const CreateOrder = async () => {
             
+            
           }
         
           return (
+            <div>
             <div className="d-flex flex-column align-items-center">
                 <br />< br /><br />
                 <div className="d-flex justify-content-center align-items-center mb-4">
@@ -103,17 +110,19 @@ export default function ShowService() {
           <FontAwesomeIcon icon={faTags} />
         </MDBBtn>
       </div>
+      </div>
 
       {result.length > 0 ? (
-          <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+        <div>
+          <section className="vh-100" style={{ backgroundColor: '#eee' , width: '100%'}}>
             <MDBContainer className="py-5 h-100">
-              {result.searchResults.map((servicedata) => (
+              {result.map((servicedata) => (
                 <MDBRow
                   className="justify-content-center align-items-center h-100"
                   key={servicedata._id}
                 >
                   <MDBCol xl="10">
-                    <MDBCard className="mb-5" style={{ borderRadius: '15px' }}>
+                  <MDBCard className="mb-5" style={{ borderRadius: '15px', width: '100%' }}>
                       <MDBCardBody className="p-4">
                         <MDBTypography className='text-center my-4' tag='h3'>{servicedata.title}</MDBTypography>
                         <MDBCardText className="medium">
@@ -151,8 +160,9 @@ export default function ShowService() {
               ))}
             </MDBContainer>
           </section>
+          </div>
         ) : (
-          <p>No search results found.</p>
+          <p style={{ textAlign: 'center' }}>No search results found.</p>
         )}
 
 
