@@ -77,7 +77,7 @@ export default function ShowService() {
       price: price,
       description: serviceDescription, 
       response: '',
-      status: 'pending',
+      status: 'Pending',
     };
 
     try {

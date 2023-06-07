@@ -14,16 +14,19 @@ const Navbar = () => {
           <div className="ml-auto">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/home">Home</Link>
+                <Link className="nav-link" to="/service/showservice">Find Services</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">About</Link>
+                <Link className="nav-link" to="/about">Profile</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/services">Services</Link>
+                <Link className="nav-link" to="/service/myservice">My Service</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">Contact</Link>
+                <Link className="nav-link" to="/service/hiredservice">Hired Services</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/service/requestedservice">Service Requests</Link>
               </li>
             </ul>
           </div>

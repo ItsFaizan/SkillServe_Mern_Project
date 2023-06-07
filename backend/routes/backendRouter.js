@@ -1,6 +1,6 @@
 import express from 'express';
 import { createService, updateService, deleteService, getService, findService, checkservice } from '../controller/serviceController.js';
-import { createServiceOrder, updateServiceOrderStatus, getServiceOrders } from '../controller/serviceOrderController.js';
+import { createServiceOrder, getServiceOrders, getSellerServiceOrders, manageServiceOrder, completeServiceOrder  } from '../controller/serviceOrderController.js';
 import { login } from '../controller/authController.js';
 import { verifyToken } from '../middleware/jwt.js';
 
@@ -17,7 +17,9 @@ backendRouter.post('/findservice',verifyToken,  findService)
 backendRouter.get('/checkservice',verifyToken,  checkservice)
 
 backendRouter.post('/createserviceorder',verifyToken,  createServiceOrder);
-backendRouter.put('/updateserviceorderstatus/:serviceorderId',verifyToken,  updateServiceOrderStatus);
+backendRouter.put('/manageserviceorder',verifyToken,  manageServiceOrder);
+backendRouter.put('/completeserviceorder',verifyToken,  completeServiceOrder);
+backendRouter.get('/getsellerserviceorders',verifyToken,  getSellerServiceOrders);
 backendRouter.get('/getserviceorders',verifyToken,  getServiceOrders);
 
 export default backendRouter;

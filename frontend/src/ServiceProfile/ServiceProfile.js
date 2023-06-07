@@ -61,7 +61,7 @@ export default function ServiceUpdation() {
             toast.error(error.message);
           }
         })();
-      }, []);
+      }, [ cookies.accessToken]);
 
 
 

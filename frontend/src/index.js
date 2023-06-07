@@ -14,6 +14,8 @@ import Footer from './Footer/Footer.js';
 import ShowService from './ShowService/ShowService.js';
 import Login from './Login/login.js';
 import ServiceDecider from './ServiceDecider/ServiceDecider';
+import HiredService from './HiredService/HiredService';
+import RequestedService from './RequestedService/RequestedService';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -31,6 +33,10 @@ root.render(
       <Route path="/service/createservice" element={<div><UserNavbar /><ServiceCreation /></div>} />
 
       <Route path="/service/serviceprofile" element={<div><UserNavbar /><ServiceProfile /></div>} />
+
+      <Route path="/service/hiredservice" element={<div><UserNavbar /><HiredService /></div>} />
+
+      <Route path="/service/requestedservice" element={<div><UserNavbar /><RequestedService /></div>} />
 
       <Route path="/service/serviceprofileupdation" element={<div><UserNavbar /><ServiceUpdation /></div>} />
 
