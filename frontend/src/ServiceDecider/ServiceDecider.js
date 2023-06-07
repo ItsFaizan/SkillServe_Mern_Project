@@ -33,7 +33,7 @@ export default function ServiceDecider() {
         console.log('Error occurred while checking user service:', error);
       }
     })();
-  }, []);
+  }, [ cookies.accessToken, navigate]);
 
   return <div>Loading...</div>;
 }

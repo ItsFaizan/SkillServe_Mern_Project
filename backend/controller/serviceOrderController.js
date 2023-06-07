@@ -1,20 +1,22 @@
 import ServiceOrder from '../model/serviceOrderModel.js'
 
 const createServiceOrder = async (req,res)=>{
-    const {serviceid,buyerid,sellerid,price,description,status} = req.body;
+    const {serviceid,sellerid,price,description,response,status} = req.body.body;
+    const buyerid = req.userid;
     const serviceOrder = new ServiceOrder({
         serviceid,
         buyerid,
         sellerid,
         price,
         description,
+        response,
         status
     })
     try{
         await serviceOrder.save();
-        res.json(serviceOrder);
+        res.json({message:"Service order created successfully!"});
     }catch(err){
-        console.log(err);
+        res.json({error:err});
     }
 }
 

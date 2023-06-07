@@ -25,6 +25,9 @@ const serviceOrderSchema = mongoose.Schema({
         type: String,
         require:true
     },
+    response:{
+        type: String,
+    },
     status:{
         type: String,
         require:true
