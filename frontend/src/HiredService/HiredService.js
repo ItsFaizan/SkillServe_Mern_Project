@@ -36,65 +36,65 @@ export default function HiredService() {
 
   return (
     <div>
+        <br/><br/>
       {serviceorderdata ? (
-        <section className="vh-100" style={{ backgroundColor: '#eee' }}>
-          <MDBContainer className="py-5 h-100">
-            {serviceorderdata.map((order) => (
-              <MDBRow className="justify-content-center align-items-center h-100" key={order.id}>
-                <MDBCol xl="10">
-                  <MDBCard className="mb-5" style={{ borderRadius: '15px' }}>
-                    <MDBCardBody className="p-4">
-                      <MDBCardText className="medium">
-                        <MDBRow className="my-4">
-                          <MDBCol md="1" className="d-flex align-items-center justify-content-center">
-                            <FontAwesomeIcon icon={faClipboard} className="fa-xl" />
-                          </MDBCol>
-                          <MDBCol md="9">{order.description}</MDBCol>
-                        </MDBRow>
-                        <MDBRow className="my-4">
-                          <MDBCol md="1" className="d-flex align-items-center justify-content-center">
-                            <FontAwesomeIcon icon={faMoneyBill} className="fa-xl" />
-                          </MDBCol>
-                          <MDBCol md="9">{order.price}</MDBCol>
-                        </MDBRow>
-                        <MDBRow className="my-4">
-                          <MDBCol md="1" className="d-flex align-items-center justify-content-center">
-                            <FontAwesomeIcon icon={faCircleInfo} className="fa-xl" />
-                          </MDBCol>
-                          <MDBCol md="9">{order.status}</MDBCol>
-                        </MDBRow>
-                        
-                        
-                        {order.status === 'Completed' && (
-                            <div>
-                            <MDBRow className="my-4">
-                            <MDBCol md="1" className="d-flex align-items-center justify-content-center">
-                              <FontAwesomeIcon icon={faReply} className="fa-xl" />
-                            </MDBCol>
-                            <MDBCol md="9">{order.response}</MDBCol>
-                          </MDBRow>
-                          <br/><br/>
-                            
+        <div>
+          <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+            <MDBContainer className="py-5">
+              <MDBRow className="justify-content-center">
+                {serviceorderdata.map((order) => (
+                  <MDBCol xl="4" md="6" key={order.id} className="mb-4">
+                    <MDBCard className="mb-5" style={{ borderRadius: '15px' }}>
+                      <MDBCardBody className="p-4">
+                        <MDBCardText className="medium">
                           <MDBRow className="my-4">
-                            <MDBCol md="2" className="d-flex align-items-center justify-content-center"></MDBCol>
-                            <MDBCol md="8">
-                                <Link to="/service/reviewservice">
-                                <MDBBtn id="btnfont" color="dark" className="w-100 mb-4">
-                                    Review Service
-                                </MDBBtn>
-                              </Link>
+                            <MDBCol md="1" className="d-flex align-items-center justify-content-center">
+                              <FontAwesomeIcon icon={faClipboard} className="fa-xl" />
                             </MDBCol>
+                            <MDBCol md="9">{order.description}</MDBCol>
                           </MDBRow>
-                          </div>
-                        )}
-                      </MDBCardText>
-                    </MDBCardBody>
-                  </MDBCard>
-                </MDBCol>
+                          <MDBRow className="my-4">
+                            <MDBCol md="1" className="d-flex align-items-center justify-content-center">
+                              <FontAwesomeIcon icon={faMoneyBill} className="fa-xl" />
+                            </MDBCol>
+                            <MDBCol md="9">{order.price}</MDBCol>
+                          </MDBRow>
+                          <MDBRow className="my-4">
+                            <MDBCol md="1" className="d-flex align-items-center justify-content-center">
+                              <FontAwesomeIcon icon={faCircleInfo} className="fa-xl" />
+                            </MDBCol>
+                            <MDBCol md="9">{order.status}</MDBCol>
+                          </MDBRow>
+                          {order.status === 'Completed' && (
+                            <div>
+                              <MDBRow className="my-4">
+                                <MDBCol md="1" className="d-flex align-items-center justify-content-center">
+                                  <FontAwesomeIcon icon={faReply} className="fa-xl" />
+                                </MDBCol>
+                                <MDBCol md="9">{order.response}</MDBCol>
+                              </MDBRow>
+                              <br/><br/>
+                              <MDBRow className="my-4">
+                                <MDBCol md="2" className="d-flex align-items-center justify-content-center"></MDBCol>
+                                <MDBCol md="8">
+                                  <Link to="/service/reviewservice">
+                                    <MDBBtn id="btnfont" color="dark" className="w-100 mb-4">
+                                      Review Service
+                                    </MDBBtn>
+                                  </Link>
+                                </MDBCol>
+                              </MDBRow>
+                            </div>
+                          )}
+                        </MDBCardText>
+                      </MDBCardBody>
+                    </MDBCard>
+                  </MDBCol>
+                ))}
               </MDBRow>
-            ))}
-          </MDBContainer>
-        </section>
+            </MDBContainer>
+          </section>
+        </div>
       ) : (
         <div>
           <br />

@@ -16,6 +16,7 @@ import Login from './Login/login.js';
 import ServiceDecider from './ServiceDecider/ServiceDecider';
 import HiredService from './HiredService/HiredService';
 import RequestedService from './RequestedService/RequestedService';
+import Pay from './pay/Pay';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -41,6 +42,10 @@ root.render(
       <Route path="/service/serviceprofileupdation" element={<div><UserNavbar /><ServiceUpdation /></div>} />
 
       <Route path="/service/showservice" element={<div><UserNavbar /><ShowService /></div>} />
+
+      <Route path="/pay/:id" element={<div><UserNavbar /><Pay /></div>} />
+
+
 
     </Routes>
 

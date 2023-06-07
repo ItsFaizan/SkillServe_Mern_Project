@@ -1,4 +1,25 @@
 import ServiceOrder from '../model/serviceOrderModel.js'
+import Stripe from 'stripe';
+import Service from '../model/serviceModel.js';
+
+ const intent = async (req, res, next) => {
+  const stripe = new Stripe(process.env.STRIPE);
+
+  const service = await ServiceOrder.findById(req.params.id);
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: service.price * 100,
+    currency: "usd",
+    automatic_payment_methods: {
+      enabled: true,
+    },
+  });
+ 
+    res.status(200).send({
+      clientSecret: paymentIntent.client_secret,
+    });
+};
+
 
 const createServiceOrder = async (req,res)=>{
     const {serviceid,sellerid,price,description,response,status} = req.body.body;
@@ -14,7 +35,8 @@ const createServiceOrder = async (req,res)=>{
     })
     try{
         await serviceOrder.save();
-        res.json({message:"Service order created successfully!"});
+        res.json({ message: "Service order created successfully!", serviceOrderId: serviceOrder._id });
+
     }catch(err){
         res.json({error:err});
     }
@@ -84,5 +106,4 @@ const createServiceOrder = async (req,res)=>{
   };
 
 
-export {createServiceOrder,getServiceOrders, getSellerServiceOrders, manageServiceOrder, completeServiceOrder}
-  
+export {createServiceOrder,getServiceOrders, getSellerServiceOrders, manageServiceOrder, completeServiceOrder, intent}

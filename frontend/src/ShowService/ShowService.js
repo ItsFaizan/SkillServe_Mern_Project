@@ -94,7 +94,7 @@ export default function ShowService() {
         const data = await response.json();
         toast.success(data.message);
         setShowModal(false); 
-        navigate('/service/showservice');
+        navigate(`/pay/${data.serviceOrderId}`);
       } else {
         const data = await response.json();
         toast.error(data.message);
@@ -238,9 +238,11 @@ export default function ShowService() {
                   <MDBBtn color="secondary" onClick={() => setShowModal(false)}>
                     Close
                   </MDBBtn>
+                  
                   <MDBBtn color="dark" onClick={createOrder}>
                     Confirm Service Order
                   </MDBBtn>
+                 
                 </MDBModalFooter>
               </MDBModalContent>
             </MDBModalDialog>

@@ -18,6 +18,11 @@ html, body {
   background: #111;
   white-space: pre-wrap;
   color: #ccc;
+
+  /* Updated code */
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer a {
