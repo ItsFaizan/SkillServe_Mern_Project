@@ -208,7 +208,9 @@ export default function ShowService() {
           </section>
         </div>
       ) : (
-        <p style={{ textAlign: 'center' }}>No search results found.</p>
+        <p style={{ textAlign: 'center' }}>No search results found.
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        </p>
       )}
 
       {/* Modal */}

@@ -77,7 +77,7 @@ export default function HiredService() {
                               <MDBRow className="my-4">
                                 <MDBCol md="2" className="d-flex align-items-center justify-content-center"></MDBCol>
                                 <MDBCol md="8">
-                                  <Link to="/service/reviewservice">
+                                    <Link to="/feedbackform">
                                     <MDBBtn id="btnfont" color="dark" className="w-100 mb-4">
                                       Review Service
                                     </MDBBtn>

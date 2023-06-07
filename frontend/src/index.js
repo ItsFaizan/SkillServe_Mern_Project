@@ -17,6 +17,21 @@ import ServiceDecider from './ServiceDecider/ServiceDecider';
 import HiredService from './HiredService/HiredService';
 import RequestedService from './RequestedService/RequestedService';
 import Pay from './pay/Pay';
+import LandingPage from './LandingPage/LandingPage';
+import MainNavbar from './UserNavbar/MainNavbar';
+import LoginForm  from './Login/LoginForm'
+import DisplayForm from './DisplayForm/DisplayForm';
+import ServiceSearch from './DisplayForm/ServiceSearch';
+import AdminNavbar from './UserNavbar/AdminNavbar';
+import UserSearch from './DisplayForm/UserSearch';
+import NotificationForm from './DisplayForm/NotificationForm';
+import Register from './Register/Register';
+import Profile from './Profile/Profile';
+import EditProfile from './Profile/EditProfile';
+import FeedbackForm from './Review/FeedbackForm';
+import Submission from './Review/Submission';
+import EditReview from './Review/EditReview';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,7 +42,31 @@ root.render(
 
     <Routes>
 
-      <Route path="/" element={<div><Login /></div>} />
+      <Route path="/" element={<div><MainNavbar/><LandingPage /></div>} />
+
+      <Route path="/userlogin" element={<div><MainNavbar/><Login /></div>} />
+
+      <Route path="/register" element={<div><MainNavbar/><Register /></div>} />
+
+      <Route path="/profile" element={<div><UserNavbar/><Profile /></div>} />
+
+      <Route path="/editprofile" element={<div><UserNavbar/><EditProfile /></div>} />
+
+      <Route path="/feedbackform" element={<div><UserNavbar/><FeedbackForm /></div>} />
+
+      <Route path="/submission" element={<div><UserNavbar/><Submission /></div>} />
+
+      <Route path="/editreview" element={<div><UserNavbar/><EditReview /></div>} />
+
+      <Route path="/displayform" element={<div><AdminNavbar/><DisplayForm /></div>} />
+
+      <Route path="/adminlogin" element={<div><AdminNavbar/><LoginForm /></div>} />
+
+      <Route path="/adminusersearch" element={<div><AdminNavbar /><UserSearch /></div>} />
+
+      <Route path="/adminservicesearch" element={<div><AdminNavbar /><ServiceSearch /></div>} />
+
+      <Route path="/adminnavigation" element={<div><AdminNavbar /><NotificationForm /></div>} />
 
       <Route path="/service/myservice" element={<div><UserNavbar /><ServiceDecider /></div>} />
 

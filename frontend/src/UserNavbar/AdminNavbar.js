@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandshakeAngle } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = () => {
+const AdminNavbar = () => {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div className="container">
@@ -14,22 +14,16 @@ const Navbar = () => {
           <div className="ml-auto">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/service/showservice">Find Services</Link>
+                <Link className="nav-link" to="/displayform">View Users</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/profile">Profile</Link>
+                <Link className="nav-link" to="/adminservicesearch">Search Services</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/service/myservice">My Service</Link>
+                <Link className="nav-link" to="/adminusersearch">Search User</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/service/hiredservice">Hired Services</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/service/requestedservice">Service Requests</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/userlogin">Logout</Link>
+                <Link className="nav-link" to="/adminnavigation">Notfication</Link>
               </li>
             </ul>
           </div>
@@ -38,4 +32,4 @@ const Navbar = () => {
     );
   };
 
-export default Navbar;
+export default AdminNavbar;

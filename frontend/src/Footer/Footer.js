@@ -6,7 +6,7 @@ import { faFacebook, faGoogle, faGithub, faLinkedin } from '@fortawesome/free-br
 export default function Footer() {
   return (
     <div>
-  <br /><br /><br /> <br /> <br/><br/><br/>
+  
     <footer id="footer" className="footer">
       <div className="container text-center">
         <ul className="social-links">
